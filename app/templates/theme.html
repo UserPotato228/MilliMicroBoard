@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>{{ title }}</title>
+</head>
+<style>
+* {margin: 0;}
+
+body{
+background-color: #2e2e2e;
+        color: white;
+}
+
+header{
+    padding: 15px;
+    border-bottom: 1px solid gray;
+}
+
+#wrapper{
+    padding: 5px;
+    width: 70%;
+    margin: 0 auto;
+}
+form{
+    border: 1px solid gray;
+    padding: 15px;
+    background-color: #3d3d3d;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+a{text-decoration: none;
+    color: #00c4de;
+    font-weight: 100;
+    }
+
+    @media only screen and (max-width: 768px){
+
+#wrapper{
+width: 100%;
+margin: 0;}
+
+}
+</style>
+<body>
+<header><h2>{{ title }}</h2></header>
+<div id="wrapper">
+    <div>
+        <button onclick="document.getElementById('form').style.opacity='1';">
+            Добавить
+        </button>
+    </div>
+    {% if threads %}
+    {% for item in threads%}
+    <div style="height: 200px;display: flex; flex-direction: row; border-bottom: 1px solid gray; border-top: 1px solid gray;">
+        {% if item.files %}
+        <img  src="{{url_for('static', filename='Img/'+item.files)}}">
+        {% endif %}
+    <div style="padding: 15px;">{{item.title}}<br/> {{item.desc}}</br> <a href="{{item.id}}">Ответить</a></div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div>Пока тут ничего нет</div>
+    {% endif %}
+</div>
+    <form method="post" id="form" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="Заголовок" maxlength="150">
+        <input type="text" name="desc" placeholder="Описание" maxlength="250">
+        <input type="file" name="file">
+        <input type="submit" value="Создать">
+        <button type="button" onclick="document.getElementById('form').style.opacity='0';">Убрать</button>
+    </form>
+</body>
+</html>

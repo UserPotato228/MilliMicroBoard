@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Document</title>
+</head>
+<style>
+    *{margin: 0;}
+    body{
+    background-color: #2e2e2e;
+    color: white;}
+
+    #wrapper{
+        width: 70%;
+        margin: 0 auto;}
+
+    #head {
+        padding: 10px;
+    }
+    #head div{
+        margin-bottom: 10px;
+    }
+    a{text-decoration: none;
+    color: #00c4de;
+    font-weight: 100;
+    }
+
+    form{border: 1px solid gray;
+    padding: 15px;
+    background-color: #3d3d3d;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+@media only screen and (max-width: 768px){
+
+#wrapper{
+width: 100%;
+margin: 0;}
+
+}
+</style>
+<body>
+    <div id="wrapper">
+        <div id="head" style="border-bottom: 1px solid gray;">
+            <div style="width: 100%; font-size: 24px; font-weight: 600;">{{title}}</div>
+
+            <div style="width: 100%;">{{desc}}</div>
+            {% if file %}
+            <div>
+                <img style="width: 50%;" src="{{url_for('static', filename='Img/'+file)}}">
+            </div>
+            {% endif %}
+            <button onclick="document.getElementById('form').style.opacity='1';">Ответить</button>
+        </div>
+        {% if records %}
+        {% for item in records %}
+        <div id="{{item.id}}" style="border: 1px solid gray; padding: 5px;">
+            <div style="border-bottom: 1px solid gray;">{{item.author}} | {{item.id}}</div>
+            <div style="padding: 10px;">{{item.message}}</div>
+            {% if item.replay %}
+                <div><a style="color: #00b6cf;" href="#{{item.replay}}">&gt;&gt;&gt;&gt;&gt;{{item.replay}}</a></div>
+            {% endif %}
+            {% if item.files %}
+                <div><img style="width: 50%;" src="{{url_for('static', filename='Img/'+item.files)}}"></div>
+            {% endif %}
+            <div style="width: 100%;"><a href="#{{item.id}}" onclick="document.getElementById('form').style.opacity='1'; document.getElementById('replay').value='{{item.id}}'">Ответ</a></div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div>Пока тут пусто</div>
+        {% endif %}
+    </div>
+<form method="post" id="form" enctype="multipart/form-data">
+        <input type="text" name="author" placeholder='Автор(По умолчанию "Анон")' maxlength="50">
+        <input type="text" name="message" placeholder="Сообщение" maxlength="350">
+        <input type="text" id="replay" name="replay" placeholder="Ответ кому(ИД сообщения пользователя)" maxlength="100">
+        <input type="file" name="file">
+        <input type="submit" value="Ответить">
+        <button type="button" onclick="document.getElementById('form').style.opacity='0';">Убрать</button>
+    </form>
+</body>
+</html>

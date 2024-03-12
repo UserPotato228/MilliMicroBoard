@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ГЛАВНАЯ СТРАНИЦА</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+</head>
+<style>
+    *{ margin: 0; }
+
+    body{
+        background-color: #2e2e2e;
+        color: white;
+    }
+
+    ul{font-weight: 600;}
+
+    li a{text-decoration: none;
+    color: #00c4de;
+    font-weight: 100;
+    }
+
+
+
+    header{
+        padding: 5px;
+        border-bottom: 1px solid gray;
+    }
+
+
+    #wrapper{
+        width: 75%;
+        margin: 0 auto;
+        display: grid;
+        grid-gap: 15px;
+        grid-template-columns: repeat(auto-fit, 200px);
+        grid-auto-flow: dense;
+        padding: 15px;
+    }
+    @media only screen and (max-width: 768px){
+
+#wrapper{
+width: 100%;
+margin: 0;}
+
+}
+
+</style>
+<body>
+<header><h2>МиллиМикроБорд</h2></header>
+<div style="border-bottom: 1px solid gray; width: 100%; font-size: 18px; ">Это МиллиМикроБорд написанный на фреймворке Flask. Have Fun.
+<ul style="color: red;">
+    <li>Пишем по темам или ip летит в blacklist <strong>(Кроме "ОФФТОП")</strong></li>
+</ul>
+</div>
+
+<div id="wrapper">
+    {% for item in subjects %}
+<ul>
+        {{ item.title }}
+        {% for itemitem in themes %}
+            {% if item.id == itemitem.subject_id %}
+            <li><a href="/{{itemitem.tag}}/">{{itemitem.title}}</a></li>
+            {% endif %}
+        {% endfor %}
+</ul>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>PAGE NOT FOUND</title>
+</head>
+<style>
+*{ margin: 0; }
+
+    body{
+        background-color: #2e2e2e;
+        color: white;
+    }
+    img{
+        width: 80%;
+    }
+    #message{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0 auto;
+    }
+</style>
+<body>
+<div id="message">
+    <div><h1 style="padding: 10px; font-size: 42px;">PAGE NOT FOUND</h1></div>
+    <img src="{{url_for('static',filename='NOTFOUND.png')}}">
+</div>    
+</body>
+</html>
